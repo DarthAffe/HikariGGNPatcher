@@ -1,0 +1,62 @@
+﻿<Window x:Class="HikariGGNPatcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:HikariGGNPatcher.Controls"
+        xmlns:hikariGgnPatcher="clr-namespace:HikariGGNPatcher"
+        Title="Hikari 光 Translations - Go! Go! Nippon! - Patch" Width="854" Height="480"
+        WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        SnapsToDevicePixels="True" x:Name="Window">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Resources/GGNResourceDictionary.xaml" />
+    </Window.Resources>
+
+    <Window.DataContext>
+        <hikariGgnPatcher:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/ggnBackground.png" Stretch="UniformToFill" />
+    </Window.Background>
+
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Top" Height="32" Background="{StaticResource OverlayDarkBrush}" MouseLeftButtonDown="OnTopBarMouseLeftButtonDown">
+            <DockPanel LastChildFill="False">
+
+                <!-- Window-Buttons -->
+                <StackPanel DockPanel.Dock="Right" VerticalAlignment="Top" Margin="4" Orientation="Horizontal">
+                    <controls:ImageButton Width="24" Height="24" Command="{Binding Path=MinimizeCommand}" Image="Resources/minimize.png" ToolTip="Minimieren" />
+                    <controls:ImageButton Width="24" Height="24" Command="{Binding Path=CloseCommand}" Image="Resources/close.png" ToolTip="Beenden" />
+                </StackPanel>
+
+                <!-- Logo/Website-Button -->
+                <Border DockPanel.Dock="Left" Margin="4,0">
+                    <controls:ImageButton VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Path=OpenHomepageCommand}"
+                                          Image="Resources/logo.png" ToolTip="http://hikari-translations.de" />
+                </Border>
+            </DockPanel>
+        </Border>
+
+        <Border BorderThickness="2,0,2,2" BorderBrush="{StaticResource OverlayDarkBrush}">
+            <Grid>
+
+                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="12,4" FontSize="20" FontWeight="Bold" Foreground="White" Text="© Hikari 光 Translations">
+                    <TextBlock.Effect>
+                        <DropShadowEffect ShadowDepth="3" RenderingBias="Quality" Color="Black" />
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <StackPanel>
+                    <Image Source="Resources/ggnLogo.png" Width="300" Margin="0,-8,0,0" />
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Vertical">
+                        <Button Content="Spiel starten" Command="{Binding Path=StartGameCommand}" IsEnabled="{Binding Path=IsGameStartable}" />
+                        <Button Content="Patchen" Command="{Binding Path=PatchCommand}" Visibility="{Binding Path=IsGameDataFound, Converter={StaticResource BoolToCollapsedVisibilityConverter}}" />
+                        <Button Content="Pfad finden" Command="{Binding Path=BrowsePathCommand}" Visibility="{Binding Path=IsGameDataFound, Converter={StaticResource BoolToCollapsedVisibilityConverter}, ConverterParameter=True}" />
+                        <Button Content="Verlassen" Command="{Binding Path=CloseCommand}" Margin="0,12,0,0" />
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </DockPanel>
+</Window>
